@@ -204,7 +204,7 @@ export const ChatBody = (props) => {
         </div>
 
         <div>
-          <div style={{ overflowX: 'hidden', marginTop: '0px', minHeight: '62vh', height: '64vh', overflowY: 'auto' }}>
+          <div style={{ overflowX: 'hidden', marginTop: '0px', minHeight: '62vh', height: '60vh', overflowY: 'auto' }}>
             {
               getMessage && getMessage.map(chat => {
                 return (
