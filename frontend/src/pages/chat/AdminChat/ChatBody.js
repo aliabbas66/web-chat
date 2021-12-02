@@ -166,7 +166,7 @@ export const ChatBody = (props) => {
 
   return (
     <ChatLayout usersSide>
-      <div className='admin-chat-body' style={{ position: 'relative' }}>
+      <div className='admin-chat-body' style={{ position: 'relative', overflowX: 'hidden' }}>
         <div style={{ position: 'relative' }}>
           <div className='header-avatar'>
             <div className='name-container'>
@@ -204,7 +204,7 @@ export const ChatBody = (props) => {
         </div>
 
         <div>
-          <div style={{ overflowX: 'hidden', marginTop: '0px', height: '62vh', overflowY: 'auto' }}>
+          <div style={{ overflowX: 'hidden', marginTop: '0px', minHeight: '62vh', height: '64vh', overflowY: 'auto' }}>
             {
               getMessage && getMessage.map(chat => {
                 return (
