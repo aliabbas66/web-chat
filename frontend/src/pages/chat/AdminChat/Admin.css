@@ -1,7 +1,7 @@
 .admin {
-     height: 100vh !important;
      overflow-y: hidden !important;
      position: relative;
+     overflow-x: hidden !important;
 }
 
 .admin .PrivateTabIndicator-colorSecondary-3 {

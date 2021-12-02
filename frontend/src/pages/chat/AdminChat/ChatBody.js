@@ -295,7 +295,7 @@ export const ChatBody = (props) => {
           </div>
           <div >
             <div className='input-container' style = {{width: '100%'}}>
-              <FormControl sx={{ m: 1, width: '100%', borderWidth: '2px' }} variant="outlined">
+              <FormControl sx={{ m: 1, borderWidth: '2px', width: '100%', marginBottom: '32px' }} variant="outlined">
                 <OutlinedInput
                   style={{ borderRadius: '32px' }}
                   id="outlined-adornment-weight"
