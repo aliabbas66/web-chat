@@ -22,14 +22,7 @@ export const ChatBody = (props) => {
   const [receiverHeader, setReceiverHeader] = useState({});
   const [loading, setLoading] = useState(false);
 
-  let ENDPOINT;
-  // if (process.env.NODE_ENV === 'production') {
-  //   ENDPOINT = "https://mychatapp786.herokuapp.com/"; // The url of the domain on which you are hosting your backend in production mode
-  // }
-  // else {
-  //   ENDPOINT = "http://localhost:8000";    // The url of the backend server in developement mode
-  // }
-  ENDPOINT = process.env.REACT_APP_URI; 
+ let ENDPOINT = process.env.REACT_APP_URI; 
 
 
   const onChange = e => {
@@ -300,9 +293,9 @@ export const ChatBody = (props) => {
               </div>
             }
           </div>
-          <div style={{ position: 'fixed', bottom: '0px', width: '80%' }}>
-            <div className='input-container'>
-              <FormControl sx={{ m: 1, width: '100%', borderWidth: '2px' }} variant="outlined">
+          <div >
+            <div className='input-container' style = {{width: '100%'}}>
+              <FormControl sx={{ m: 1, width: '100%', borderWidth: '2px', marginTop: '19px' }} variant="outlined">
                 <OutlinedInput
                   style={{ borderRadius: '32px' }}
                   id="outlined-adornment-weight"
@@ -316,7 +309,7 @@ export const ChatBody = (props) => {
                         <span className='pl-4'>
                           <FileAddOutlined />
                         </span>
-                        <input type="file" name='files' multiple style={{ visibility: "hidden", height: '10px' }} onChange={handleImageChange} />
+                        <input type="file" name='files' multiple style={{ visibility: "hidden", height: '10px'}} onChange={handleImageChange} />
                       </label>
                     </div>
                     <SendOutlined onClick={submitChatHandler} /></InputAdornment>}

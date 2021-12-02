@@ -21,14 +21,8 @@ export const Popup = (props) => {
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState('');
     const [success, setSuccess] = useState(false);
-    let ENDPOINT;
-
-    // if (process.env.NODE_ENV === 'production') {
-    //     ENDPOINT = "https://mychatapp786.herokuapp.com/"; // The url of the domain on which you are hosting your backend in production mode
-    // }
-    // else {
-        ENDPOINT = process.env.REACT_APP_URI;    // The url of the backend server in developement mode
-    // }
+  
+      let ENDPOINT = process.env.REACT_APP_URI;   
 
 
     const openForm = () => {
@@ -96,7 +90,7 @@ export const Popup = (props) => {
 
     useEffect(() => {
         socket = io(ENDPOINT)
-        socket.emit("join", { userId: user._id, admin: receiver, username: user.username }, () => {
+        socket.emit("join", { userId: user._id, username: user.username }, () => {
 
         });
 
