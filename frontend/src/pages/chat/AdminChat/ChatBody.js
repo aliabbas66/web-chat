@@ -9,6 +9,7 @@ import Avatar from '@mui/material/Avatar';
 import './Admin.css';
 import { Button, FormControl, Grid, InputAdornment, OutlinedInput } from '@mui/material';
 import fileDownload from 'js-file-download';
+import { Header } from './Header';
 
 
 let socket;
@@ -22,7 +23,7 @@ export const ChatBody = (props) => {
   const [receiverHeader, setReceiverHeader] = useState({});
   const [loading, setLoading] = useState(false);
 
- let ENDPOINT = process.env.REACT_APP_URI; 
+  let ENDPOINT = process.env.REACT_APP_URI;
 
 
   const onChange = e => {
@@ -52,9 +53,9 @@ export const ChatBody = (props) => {
     })
   }
 
-  const scrolltobottom = async() => {
+  const scrolltobottom = async () => {
     var myDiv = document.getElementById("myDiv");
-    myDiv && myDiv.scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'start'});;
+    myDiv && myDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });;
   }
 
 
@@ -124,8 +125,8 @@ export const ChatBody = (props) => {
   const handleImageChange = (e) => {
     setFile(
       e.target.files[0]
-
-    )
+    );
+    scrolltobottom();
   }
   const UploadImage = () => {
     setLoading(true);
@@ -168,39 +169,7 @@ export const ChatBody = (props) => {
     <ChatLayout usersSide>
       <div className='admin-chat-body' style={{ position: 'relative', overflowX: 'hidden' }}>
         <div style={{ position: 'relative' }}>
-          <div className='header-avatar'>
-            <div className='name-container'>
-              <div>
-                <Avatar sx={{ background: 'rgb(255, 87, 34)' }}>{receiverHeader.fullName ? receiverHeader.fullName.charAt(0) : 'X'}</Avatar>
-              </div>
-              <div>
-                <h4 className='name'>{receiverHeader.fullName}</h4>
-                <p className='online'>{onlineMessage}</p>
-              </div>
-            </div>
-            <div className='info-container'>
-              <Grid container spacing={2}>
-                <Grid item xs={4}>
-                  <div>Name:</div>
-                </Grid>
-                <Grid item xs={8}>
-                  <div>{receiverHeader.fullName}</div>
-                </Grid>
-                <Grid item xs={4}>
-                  <div>Email:</div>
-                </Grid>
-                <Grid item xs={8}>
-                  <div>{receiverHeader.email}</div>
-                </Grid>
-                <Grid item xs={4}>
-                  <div>Phone:</div>
-                </Grid>
-                <Grid item xs={8}>
-                  <div>{receiverHeader.phone}</div>
-                </Grid>
-              </Grid>
-            </div>
-          </div>
+         <Header receiverHeader = {receiverHeader} onlineMessage={onlineMessage} />
         </div>
 
         <div>
@@ -211,36 +180,7 @@ export const ChatBody = (props) => {
                   <>
                     <div className='message-container'>
                       {
-                        chat.sender._id !== user._id &&
-                        <button className='receiver each'>
-                          <div className='d-flex'>
-                            <Avatar sx={{ background: 'rgb(255, 87, 34)' }}>{receiverHeader.fullName ? receiverHeader.fullName.charAt(0) : 'X'}</Avatar>
-                            <div>
-                              <p className='time '>{moment(chat.timeOfSending, 'dddd, MMMM Do YYYY, h:mm:ss a').fromNow()}</p>
-                              {
-                                chat.message.substring(0, 6) === "http:/" ?
-                                  chat.message.substring(chat.message.length - 3, chat.message.length) === "mp4" ?
-                                    <video style={{ width: '100%' }} src={chat.message} controls alt='video' type="video/mp4" />
-                                    :
-                                    chat.message.substring(chat.message.length - 3, chat.message.length) === "png" ||
-                                      chat.message.substring(chat.message.length - 3, chat.message.length) === "jpg" ||
-                                      chat.message.substring(chat.message.length - 3, chat.message.length) === "jpeg"
-                                      ?
-                                      <img src={chat.message} alt='image' style={{ width: '100%' }} />
-                                      :
-                                      <div key={chat._id} style={{ cursor: 'pointer', wordBreak: 'break-word' }} onClick={() => {
-                                        handleDownload(chat.message, chat.message)
-                                      }}>{chat.message}</div>
-                                  :
-                                  <p className='message'>{chat.message}</p>
-                              }
-                            </div>
-                          </div>
-                        </button>
-                      }
-                      {
-                        chat.sender._id === user._id &&
-                        <button className='sender each'>
+                        <button className={chat.sender._id === user._id ? 'sender each' : 'receiver each'}>
                           <div className='d-flex'>
                             <Avatar sx={{ background: 'rgb(255, 87, 34)' }}>{chat.sender.fullName ? chat.sender.fullName.charAt(0) : 'X'}</Avatar>
                             <div>
@@ -261,22 +201,21 @@ export const ChatBody = (props) => {
                                           handleDownload(chat.message, chat.message)
                                         }}>{chat.message}</div>
                                     :
-                                    <p className='message' id = 'message'>{chat.message}</p>
+                                    <p className='message' id='message'>{chat.message}</p>
                                 }
                               </div>
                             </div>
                           </div>
                         </button>
-
                       }
-                     
+
                     </div>
                   </>
                 )
               })
             }
-              <div id='myDiv'>
-              </div>
+            <div id='myDiv'>
+            </div>
             {
               file &&
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '23px', marginBottom: '10px' }}>
@@ -285,7 +224,14 @@ export const ChatBody = (props) => {
                     <div style={{ textAlign: 'center', paddingBottom: '10px' }}><p>Loading...</p></div>
                     :
                     <>
-                      <p style={{ textAlign: 'center', wordBreak: 'break-word' }}>{file.name}</p>
+                      {
+                        file.name.substring(file.name.length - 3, file.name.length) === 'pdf' ||
+                          file.name.substring(file.name.length - 4, file.name.length) === 'docx' ||
+                          file.name.substring(file.name.length - 3, file.name.length) === 'txt' ?
+                          <p style={{ wordBreak: 'break-word' }}>{file.name}</p>
+                          :
+                          null
+                      }
                       <img className="profileImage" style={{ maxWidth: '60%' }} src={file !== '' ? URL.createObjectURL(file) : ''} alt=""></img>
                       <Button onClick={UploadImage}><SendOutlined /></Button>
                     </>
@@ -294,7 +240,7 @@ export const ChatBody = (props) => {
             }
           </div>
           <div >
-            <div className='input-container' style = {{width: '100%'}}>
+            <div className='input-container' style={{ width: '100%' }}>
               <FormControl sx={{ m: 1, borderWidth: '2px', width: '100%', marginBottom: '32px' }} variant="outlined">
                 <OutlinedInput
                   style={{ borderRadius: '32px' }}
@@ -309,7 +255,7 @@ export const ChatBody = (props) => {
                         <span className='pl-4'>
                           <FileAddOutlined />
                         </span>
-                        <input type="file" name='files' multiple style={{ visibility: "hidden", height: '10px'}} onChange={handleImageChange} />
+                        <input type="file" name='files' multiple style={{ visibility: "hidden", height: '10px' }} onChange={handleImageChange} />
                       </label>
                     </div>
                     <SendOutlined onClick={submitChatHandler} /></InputAdornment>}

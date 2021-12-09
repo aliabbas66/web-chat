@@ -44,9 +44,9 @@ if (process.env.NODE_ENV === 'production') { // For running frontend if you are 
 const sessionsMap = {};
 io.on('connection', socket => {
     console.log('New Connection');
-    socket.on("join", ({ userId, admin, username }) => {
+    socket.on("join", ({ userId, username }) => {
         sessionsMap[userId] = socket.id;
-        sessionsMap[admin] = socket.id;
+        // sessionsMap[admin] = socket.id;
         console.log(sessionsMap);
         socket.on("Get Online Status", (online) => {
             const receiverId = sessionsMap[online.receiver];

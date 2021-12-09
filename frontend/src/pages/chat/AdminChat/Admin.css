@@ -15,7 +15,8 @@
      justify-content: start !important;
      text-align: start !important;
      padding-top: 17px;
-     font-weight: 600;
+     /* font-weight: 600; */
+     font-size: .8rem;
 }
 
 .admin .left-most-tabs .css-cjctlb-MuiButtonBase-root-MuiTab-root.Mui-selected {
@@ -23,7 +24,8 @@
 }
 .admin .sidebar {
    background: #FFFFFF;
-   height: 100vh;
+   height: 89vh;
+   overflow-y: auto !important;
    border: 1px solid rgb(213, 217, 218);
 }
 
@@ -110,7 +112,7 @@
 
 .admin .sidebar .header .all-conversation {
      font-weight: 600;
-     font-size: 23px;
+     font-size: 1rem;
 }
 
 .admin .sidebar a h3 {
@@ -128,7 +130,7 @@
 }
 .admin-chat-body .header-avatar {
      display: flex;
-     justify-content: space-between;
+     justify-content: space-around;
      align-items: center;
      padding-left: 15px;
 }
@@ -137,8 +139,6 @@
      background-color: #FFFFFF;
      text-align: center;
      padding: 10px;
-     margin: 20px;
-     margin-right: 100px;
      border-radius: 15px;
      box-shadow: 0 4px 12px 0 rgb(0 0 0 / 5%);
      font-weight: 600;

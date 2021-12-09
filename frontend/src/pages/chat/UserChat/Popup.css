@@ -334,7 +334,7 @@ border-radius: 32px;
 }
 
 .chat-popup .message-container .message {
-max-width: 100px;
+/* max-width: 100px; */
 word-wrap: break-word;
 }
 
@@ -795,8 +795,9 @@ animation: 1s blink infinite 0.9999s;
 .message {
 display: flex;
 margin: 1rem 0;
-width: 70%;
-padding-left: 4%;
+width: 100%;
+/* padding-left: 4%; */
+padding-right: 4%;
 }
 .message::after {
 content: "";

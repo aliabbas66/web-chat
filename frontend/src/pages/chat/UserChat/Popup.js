@@ -8,6 +8,7 @@ import { isAuthenticated } from '../../../components/auth/auth';
 import { Signup } from '../../auth/Signup/Signup';
 import './Popup.css';
 import fileDownload from 'js-file-download';
+import { Footer } from './Footer';
 
 let socket;
 export const Popup = (props) => {
@@ -21,8 +22,8 @@ export const Popup = (props) => {
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState('');
     const [success, setSuccess] = useState(false);
-  
-      let ENDPOINT = process.env.REACT_APP_URI;   
+
+    let ENDPOINT = process.env.REACT_APP_URI;
 
 
     const openForm = () => {
@@ -147,8 +148,8 @@ export const Popup = (props) => {
     const handleImageChange = (e) => {
         setFile(
             e.target.files[0]
-
         )
+        scrolltobottom();
     }
     const UploadImage = () => {
         setLoading(true);
@@ -199,15 +200,15 @@ export const Popup = (props) => {
                         <div className='text-you'><MessageOutlined />We will get back to you!</div>
                     </div>
                     <div className="message">
-                                    <div className="message-content">
-                                        <div className="typing-indicator">
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                        </div>
-                                        <p>Enter your information, and our team will text you shortly.</p>
-                                    </div>
-                                </div>
+                        <div className="message-content">
+                            <div className="typing-indicator">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <p>Enter your information, and our team will text you shortly.</p>
+                        </div>
+                    </div>
                     {
                         isAuthenticated() ?
                             <div className='body'>
@@ -218,8 +219,7 @@ export const Popup = (props) => {
                                             <>
                                                 <div className='message-container'>
                                                     {
-                                                       chat.sender._id !== user._id &&
-                                                        <div className='receiver each'>
+                                                        <div className={chat.sender._id === user._id ? 'sender each' : 'receiver each'}>
                                                             <div className='d-flex'>
                                                                 <Avatar sx={{ background: 'rgb(255, 87, 34)' }}>{receiverHeader.fullName ? receiverHeader.fullName.charAt(0) : 'X'}</Avatar>
                                                                 <div>
@@ -245,43 +245,32 @@ export const Popup = (props) => {
                                                             </div>
                                                         </div>
                                                     }
-                                                    {
-                                                        chat.sender._id === user._id &&
-                                                        <div className='sender each'>
-                                                            <div className='d-flex'>
-                                                                <Avatar sx={{ background: 'rgb(255, 87, 34)' }}>{chat.sender.fullName ? chat.sender.fullName.charAt(0) : 'X'}</Avatar>
-                                                                <div>
-                                                                    <p className='time '>{moment(chat.timeOfSending, 'dddd, MMMM Do YYYY, h:mm:ss a').fromNow()}</p>
-                                                                    <div>
-                                                                        {
-                                                                            chat.message.substring(0, 6) === "http:/" ?
-                                                                                chat.message.substring(chat.message.length - 3, chat.message.length) === "mp4" ?
-                                                                                    <video style={{ width: '100%' }} src={chat.message} controls alt='video' type="video/mp4" />
-                                                                                    :
-                                                                                    chat.message.substring(chat.message.length - 3, chat.message.length) === "png" ||
-                                                                                        chat.message.substring(chat.message.length - 3, chat.message.length) === "jpg" ||
-                                                                                        chat.message.substring(chat.message.length - 3, chat.message.length) === "jpeg"
-                                                                                        ?
-                                                                                        <img src={chat.message} alt='image' style={{ maxWidth: '100px' }} />
-                                                                                        :
-                                                                                        <div key={chat._id} style={{ cursor: 'pointer', wordBreak: 'break-word' }} onClick={() => {
-                                                                                            handleDownload(chat.message, chat.message)
-                                                                                        }}>{chat.message}</div>
-                                                                                :
-                                                                                <p className='message'>{chat.message}</p>
-                                                                        }
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    }
                                                 </div>
                                             </>
                                         )
                                     })
                                 }
-
+                                {
+                                    file &&
+                                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '23px', marginBottom: '10px' }}>
+                                        {
+                                            loading ?
+                                                <div style={{ textAlign: 'center', paddingBottom: '10px' }}><p>Loading...</p></div>
+                                                :
+                                                <>
+                                                    {
+                                                        file.name.substring(file.name.length - 3, file.name.length) === 'pdf' ||
+                                                            file.name.substring(file.name.length - 4, file.name.length) === 'docx' ||
+                                                            file.name.substring(file.name.length - 3, file.name.length) === 'txt' ?
+                                                            <p style={{ wordBreak: 'break-word' }}>{file.name}</p>
+                                                            :
+                                                            <img className="profileImage" style={{ width: '200px', height: '200px' }} src={file !== '' ? URL.createObjectURL(file) : ''} alt=""></img>
+                                                    }
+                                                    <Button onClick={UploadImage}><SendOutlined /></Button>
+                                                </>
+                                        }
+                                    </div>
+                                }
                                 <div id='myDiv'>
                                 </div>
 
@@ -325,25 +314,7 @@ export const Popup = (props) => {
                         </FormControl>
                     </div>
                 </form>
-                {
-                    file &&
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '23px', marginBottom: '10px' }}>
-                        {
-                            loading ?
-                                <div style={{ textAlign: 'center', paddingBottom: '10px' }}><p>Loading...</p></div>
-                                :
-                                <>
-                                    <p style={{ wordBreak: 'break-word' }}>{file.name}</p>
-                                    <img className="profileImage" style={{ width: '200px', height: '200px' }} src={file !== '' ? URL.createObjectURL(file) : ''} alt=""></img>
-                                    <Button onClick={UploadImage}><SendOutlined /></Button>
-                                </>
-                        }
-                    </div>
-                }
-                <div className='logo-cont'>
-                    <img src='/assets/main.png' alt='logo' />
-                    <p>Powered by Surge Digital</p>
-                </div>
+                <Footer />
             </div>
         </div>
     )

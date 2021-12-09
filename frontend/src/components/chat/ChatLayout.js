@@ -97,7 +97,7 @@ export const ChatLayout = (props) => {
                                   <Tab label="Open" value="4" />
                                   <Tab label="Closed" value="5" />
                                 </TabList>
-                              <TabPanel value="4">
+                              <TabPanel value="4" style = {{overflowY: 'auto'}}>
                             <div>
                               {
                                 users.map(user => {
